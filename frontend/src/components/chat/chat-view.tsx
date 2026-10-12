@@ -4,6 +4,7 @@ import { Send, Square } from "lucide-react";
 import { parseSse } from "@/lib/chat/sse";
 import type { Citation, MessageStatus } from "@/lib/chat/types";
 import "./chat.css";
+import { ChatMarkdown } from "./chat-markdown";
 
 type Msg = {
   id: string;
@@ -107,7 +108,11 @@ export function ChatView() {
             <span className="overline">
               {m.role === "user" ? "YOU" : "ASSISTANT"}
             </span>
-            <div className="chat-text">{m.content}</div>
+            {m.role === "assistant" ? (
+              <ChatMarkdown content={m.content} citations={m.citations} />
+            ) : (
+              <div className="chat-text">{m.content}</div>
+            )}  
             {m.status === "streaming" && (
               <span className="muted small">Typing…</span>
             )}
