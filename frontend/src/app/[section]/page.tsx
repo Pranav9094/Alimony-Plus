@@ -15,6 +15,7 @@ export default async function Page({
       "payments",
       "documents",
       "calculator",
+      "assistant",
       "data-review",
       "help",
       "settings",
