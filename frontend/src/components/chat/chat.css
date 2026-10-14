@@ -682,3 +682,9 @@
     transition: none;
   }
 }
+.chat-md ul {
+  list-style: disc;
+}
+.chat-md ol {
+  list-style: decimal;
+}
