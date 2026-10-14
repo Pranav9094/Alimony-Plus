@@ -2,6 +2,7 @@
 
 Frontend module for Alimony+: a streaming legal-guidance chat with case-law citations.
 Open it at `/assistant` (sidebar: **AI Legal Assistant**).
+Live demo: https://alimony-plus-lime.vercel.app/assistant
 
 ## What it does
 
