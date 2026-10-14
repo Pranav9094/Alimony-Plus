@@ -18,7 +18,11 @@ function shortDate(iso: string): string {
 }
 
 function snippet(text: string): string {
-  const clean = text.replace(/\s+/g, " ").trim();
+  const clean = text
+    .replace(/```\w*/g, "")
+    .replace(/[*_`#>|]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
   return clean.length > 90 ? `${clean.slice(0, 87)}...` : clean;
 }
 
