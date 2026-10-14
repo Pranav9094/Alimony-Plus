@@ -356,8 +356,7 @@ export function ChatView() {
               }
               rows={1}
               maxLength={4000}
-              placeholder="Ask about maintenance, Sec 125, documents…"
-              aria-label="Your question"
+              placeholder="Ask your question…"              aria-label="Your question"
             />
             {chat.busy ? (
               <button type="button" className="button" onClick={chat.stop}>
