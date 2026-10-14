@@ -17,9 +17,19 @@ function stripMarkdown(text: string): string {
   return text
     .replace(/```\w*\n?/g, "")
     .replace(/\*\*/g, "")
-    .replace(/^#+\s*/gm, "");
+    .replace(/^#+\s*/gm, "")
+    .replace(
+      /^[ \t]*\|?[ \t]*:?-{3,}:?[ \t]*(\|[ \t]*:?-{3,}:?[ \t]*)*\|?[ \t]*$\n?/gm,
+      "",
+    )
+    .replace(/^[ \t]*\|(.*)\|[ \t]*$/gm, (_match, row: string) =>
+      row
+        .split("|")
+        .map((cell) => cell.trim())
+        .join("  -  "),
+    )
+    .replace(/\n{3,}/g, "\n\n");
 }
-
 export function uniqueCitations(session: ChatSession): Citation[] {
   const map = new Map<string, Citation>();
   for (const message of session.messages)
