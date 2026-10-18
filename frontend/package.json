@@ -12,10 +12,14 @@
     "format": "prettier --write src tests *.ts *.mjs *.json *.md"
   },
   "dependencies": {
+    "@radix-ui/react-slider": "^1.6.1",
+    "@radix-ui/react-tabs": "^1.2.1",
+    "jspdf": "^4.2.1",
     "lucide-react": "^1.53.0",
     "next": "^16.4.0",
     "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react-dom": "^19.3.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
