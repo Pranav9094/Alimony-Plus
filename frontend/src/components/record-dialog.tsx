@@ -5,7 +5,12 @@ import { useWorkspace } from "./workspace-provider";
 import { Field, Modal } from "./ui";
 import { api } from "@/lib/api";
 import { normalizeFinancial } from "@/lib/ledger";
-import type { DocumentRecord, SourceRecord } from "@/lib/types";
+import type {
+  DocumentRecord,
+  ProofInfo,
+  SourceRecord,
+} from "@/lib/types";
+import { sha256Hex } from "@/lib/receipt";
 export type DialogKind =
   | "case"
   | "proceeding"
@@ -85,7 +90,26 @@ export function RecordDialog({
           throw new Error("Enter an amount greater than zero.");
         if (str("paymentDate") > asOf)
           throw new Error("A received payment cannot have a future date.");
+        let proof: ProofInfo | undefined;
+        const proofFile = demo ? (form.get("proof") as File | null) : null;
+        if (proofFile?.size) {
+          if (proofFile.size > 10 * 1024 * 1024)
+            throw new Error("Choose a proof file smaller than 10 MB.");
+          if (
+            !["application/pdf", "image/png", "image/jpeg"].includes(
+              proofFile.type,
+            )
+          )
+            throw new Error("Payment proof must be a PDF, PNG or JPG file.");
+          proof = {
+            fileName: proofFile.name,
+            fileSize: proofFile.size,
+            mimeType: proofFile.type,
+            sha256: await sha256Hex(await proofFile.arrayBuffer()),
+          };
+        }
         await create("payments", {
+          ...(proof ? { proof, proofFile } : {}),
           orderId: num("orderId"),
           amount: num("amount"),
           paymentDate: str("paymentDate"),
@@ -385,6 +409,18 @@ export function RecordDialog({
             <Field label="Notes (optional)">
               <textarea name="notes" rows={2} maxLength={1000} />
             </Field>
+            {demo && (
+              <Field
+                label="Payment proof (optional)"
+                hint="Bank screenshot or statement · PDF, JPG or PNG · up to 10 MB"
+              >
+                <input
+                  name="proof"
+                  type="file"
+                  accept=".pdf,.jpg,.jpeg,.png"
+                />
+              </Field>
+            )}
             {!demo && (
               <p className="callout">
                 This saves a received payment. Period allocation and arrears
