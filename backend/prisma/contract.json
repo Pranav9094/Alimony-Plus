@@ -24,6 +24,10 @@
       "model": "Document",
       "namespace": "public"
     },
+    "Intake": {
+      "model": "Intake",
+      "namespace": "public"
+    },
     "Order": {
       "model": "Order",
       "namespace": "public"
@@ -482,6 +486,77 @@
               },
               "namespaceId": "public",
               "table": "Document"
+            }
+          },
+          "Intake": {
+            "fields": {
+              "answers": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "caseId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "safetyFlag": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
+              "userId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {},
+            "storage": {
+              "fields": {
+                "answers": {
+                  "column": "answers"
+                },
+                "caseId": {
+                  "column": "caseId"
+                },
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "safetyFlag": {
+                  "column": "safetyFlag"
+                },
+                "userId": {
+                  "column": "userId"
+                }
+              },
+              "namespaceId": "public",
+              "table": "Intake"
             }
           },
           "Order": {
@@ -1182,6 +1257,66 @@
               },
               "uniques": []
             },
+            "Intake": {
+              "columns": {
+                "answers": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "caseId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "createdAt": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "safetyFlag": {
+                  "codecId": "pg/bool@1",
+                  "default": {
+                    "kind": "literal",
+                    "value": false
+                  },
+                  "nativeType": "bool",
+                  "nullable": false
+                },
+                "userId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "caseId"
+                  ]
+                }
+              ]
+            },
             "Order": {
               "columns": {
                 "amount": {
@@ -1476,7 +1611,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "3b86d5e00ec4545c9b8e6b2bc18409879364fc238d29ba6ad1f7fbb9b14842d3"
+    "storageHash": "b8d9d9b9aa5febf70d6988232a50637e80eea5847e2fe99a4a19c96b6bb13dbe"
   },
   "capabilities": {
     "postgres": {

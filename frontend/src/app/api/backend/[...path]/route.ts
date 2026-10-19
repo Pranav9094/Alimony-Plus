@@ -4,6 +4,8 @@ import { cookies } from "next/headers";
 const allowed: Record<string, RegExp[]> = {
   GET: [
     /^cases(?:\/\d+)?$/,
+    /^cases\/\d+\/(?:intake|navigator|checklist)$/,
+    /^documents\/case\/\d+$/,
     /^proceedings\/(?:case\/)?\d+$/,
     /^orders\/(?:proceeding\/)?\d+$/,
     /^payments\/(?:order\/)?\d+$/,
@@ -12,6 +14,7 @@ const allowed: Record<string, RegExp[]> = {
   ],
   POST: [
     /^auth\/(login|register|logout)$/,
+    /^cases\/\d+\/intake$/,
     /^(cases|proceedings|orders|payments)$/,
     /^documents\/upload$/,
     /^calculator\/run$/,

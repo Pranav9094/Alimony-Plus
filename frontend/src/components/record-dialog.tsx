@@ -411,6 +411,9 @@ export function RecordDialog({
                 <option>Payment proof</option>
                 <option>Financial record</option>
                 <option>Identity / relationship</option>
+                <option>Assets and liabilities</option>
+                <option>Child expenses</option>
+                <option>Safety record</option>
                 <option>Other</option>
               </select>
             </Field>

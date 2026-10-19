@@ -6,6 +6,7 @@ import upload from "../middleware/uploadMiddleware.js";
 import uploadDocument from "../controllers/uploadDocumentController.js";
 import downloadDocument from "../controllers/downloadDocumentController.js";
 import validateId from "../middleware/validateIdMiddleware.js";
+import listDocuments from "../controllers/listDocumentsController.js";
 
 const router = express.Router();
 
@@ -17,6 +18,13 @@ router.post(
     uploadDocument
 );
 
+
+router.get(
+    "/case/:caseId",
+    authMiddleware,
+    authorizeRoles("OWNER"),
+    listDocuments
+);
 
 router.get(
     "/:id/download",

@@ -11,28 +11,23 @@ const authMiddleware = (req, res, next) => {
             });
         }
 
-        const token = authHeader.split(" ")[1];
+        const [scheme, token] = authHeader.split(" ");
 
-        if (!token) {
+        if (scheme !== "Bearer" || !token) {
             return res.status(401).json({
                 success: false,
                 message: "Invalid authorization format"
             });
         }
 
-        const decoded = jwt.verify(
-            token,
-            process.env.JWT_SECRET
-        );
-        console.log("Authenticated user:", decoded);
-
-        req.user = decoded;
+        // Pin the algorithm so a forged token cannot choose a weaker one.
+        // The decoded token holds personal data, so it is never logged.
+        req.user = jwt.verify(token, process.env.JWT_SECRET, {
+            algorithms: ["HS256"]
+        });
 
         next();
-
-    } catch (error) {
-        console.log(error);
-
+    } catch {
         return res.status(401).json({
             success: false,
             message: "Invalid or expired token"

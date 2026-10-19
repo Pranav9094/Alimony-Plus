@@ -32,12 +32,19 @@ import {
   Bell,
   SlidersHorizontal,
   BookOpen,
+  ClipboardList,
+  Compass,
 } from "lucide-react";
 import { useWorkspace } from "./workspace-provider";
 import { Badge, Empty, PageHeading, ExternalLink } from "./ui";
 import { RecordDialog, type DialogKind } from "./record-dialog";
 import { buildLedger, dateLabel, downloadJson, money } from "@/lib/ledger";
 import type { LedgerRow, SourceRecord } from "@/lib/types";
+import {
+  IntakeView,
+  NavigatorView,
+  ReadinessChecklist,
+} from "./journey-views";
 import {
   CalculatorView,
   DataReviewView,
@@ -48,6 +55,8 @@ import {
 
 const nav = [
   { id: "dashboard", title: "Overview", icon: LayoutDashboard },
+  { id: "intake", title: "Start here", icon: ClipboardList },
+  { id: "navigator", title: "Legal routes", icon: Compass },
   { id: "cases", title: "My cases", icon: FolderHeart },
   { id: "orders", title: "Court orders", icon: Scale },
   { id: "payments", title: "Maintenance", icon: Wallet },
@@ -56,6 +65,8 @@ const nav = [
 ];
 const pageTitles: Record<string, string> = {
   dashboard: "Overview",
+  intake: "Start here",
+  navigator: "Legal routes",
   cases: "My cases",
   orders: "Court orders",
   payments: "Maintenance",
@@ -1071,7 +1082,7 @@ export function WorkspaceApp({ section }: { section: string }) {
                       <p>
                         {demo
                           ? "Illustrative records. Add a synthetic file to try the workflow."
-                          : "Files uploaded in this session. The service has no document-list endpoint yet."}
+                          : "Documents saved to your case. Downloads need your signed-in session."}
                       </p>
                     </div>
                     <CaseSelector
@@ -1132,56 +1143,66 @@ export function WorkspaceApp({ section }: { section: string }) {
                       : "Downloads require your authenticated session."}
                   </div>
                 </section>
+                {!demo && (selectedCase || data.cases[0]?.id) ? (
+                  <ReadinessChecklist
+                    caseId={selectedCase || data.cases[0].id}
+                    refreshKey={documents.length}
+                    onAdd={() => open("document")}
+                  />
+                ) : (
                 <section className="panel readiness-panel">
-                  <span className="small-emblem">
-                    <Files size={21} />
-                  </span>
-                  <h2>
-                    A little preparation
-                    <br />
-                    goes a long way.
-                  </h2>
-                  <p className="muted">
-                    A starting checklist to discuss with your legal
-                    professional.
-                  </p>
-                  {[
-                    "Identity / relationship",
-                    "Financial record",
-                    "Court order",
-                    "Payment proof",
-                  ].map((category) => {
-                    const done = documents.some(
-                      (d) => d.documentType === category,
-                    );
-                    return (
-                      <div className="checklist-item" key={category}>
-                        <span
-                          className={
-                            done ? "check-circle done" : "check-circle"
-                          }
-                        >
-                          {done && <Check size={12} />}
-                        </span>
-                        <div>
-                          <strong>{category}</strong>
-                          <small>
-                            {done
-                              ? "Record added · not verified"
-                              : "Add if relevant and available"}
-                          </small>
+                    <span className="small-emblem">
+                      <Files size={21} />
+                    </span>
+                    <h2>
+                      A little preparation
+                      <br />
+                      goes a long way.
+                    </h2>
+                    <p className="muted">
+                      A starting checklist to discuss with your legal
+                      professional.
+                    </p>
+                    {[
+                      "Identity / relationship",
+                      "Financial record",
+                      "Court order",
+                      "Payment proof",
+                    ].map((category) => {
+                      const done = documents.some(
+                        (d) => d.documentType === category,
+                      );
+                      return (
+                        <div className="checklist-item" key={category}>
+                          <span
+                            className={
+                              done ? "check-circle done" : "check-circle"
+                            }
+                          >
+                            {done && <Check size={12} />}
+                          </span>
+                          <div>
+                            <strong>{category}</strong>
+                            <small>
+                              {done
+                                ? "Record added · not verified"
+                                : "Add if relevant and available"}
+                            </small>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                  <p className="small muted mt-5">
-                    Missing information is okay. Only provide what is needed and
-                    available.
-                  </p>
-                </section>
+                      );
+                    })}
+                    <p className="small muted mt-5">
+                      Missing information is okay. Only provide what is needed and
+                      available.
+                    </p>
+                  </section>
+                )}
               </div>
             </>
           )}
+          {section === "intake" && <IntakeView />}
+          {section === "navigator" && <NavigatorView />}
           {section === "calculator" && <CalculatorView />}
           {section === "data-review" && (
             <DataReviewView

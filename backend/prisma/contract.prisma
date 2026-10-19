@@ -100,3 +100,12 @@ model AuditLog {
   metadata String?
   createdAt DateTime @default(now())
 }
+
+model Intake {
+  id         Int      @id @default(autoincrement())
+  caseId     Int      @unique
+  userId     Int
+  answers    String
+  safetyFlag Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
