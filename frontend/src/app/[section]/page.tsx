@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+﻿import { notFound } from "next/navigation";
 import { WorkspaceApp } from "@/components/workspace-app";
 export const dynamic = "force-dynamic";
 export default async function Page({
@@ -15,6 +15,7 @@ export default async function Page({
       "payments",
       "documents",
       "calculator",
+      "settlement",
       "data-review",
       "help",
       "settings",
@@ -24,3 +25,4 @@ export default async function Page({
     notFound();
   return <WorkspaceApp section={section} />;
 }
+
