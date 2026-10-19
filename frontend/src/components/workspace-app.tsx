@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -45,6 +45,7 @@ import {
   LoginView,
   SettingsView,
 } from "./workspace-extras";
+import SettlementStudio from "./settlement/settlement-studio";
 
 const nav = [
   { id: "dashboard", title: "Overview", icon: LayoutDashboard },
@@ -53,6 +54,7 @@ const nav = [
   { id: "payments", title: "Maintenance", icon: Wallet },
   { id: "documents", title: "Documents", icon: Files },
   { id: "calculator", title: "Planning calculator", icon: Calculator },
+  { id: "settlement", title: "Settlement Studio", icon: Scale },
 ];
 const pageTitles: Record<string, string> = {
   dashboard: "Overview",
@@ -61,6 +63,7 @@ const pageTitles: Record<string, string> = {
   payments: "Maintenance",
   documents: "Documents",
   calculator: "Planning calculator",
+  settlement: "Settlement Studio",
   "data-review": "Data workspace",
   help: "Help & legal aid",
   settings: "Settings",
@@ -1183,6 +1186,7 @@ export function WorkspaceApp({ section }: { section: string }) {
             </>
           )}
           {section === "calculator" && <CalculatorView />}
+          {section === "settlement" && <SettlementStudio />}
           {section === "data-review" && (
             <DataReviewView
               onAdd={() => open("source")}

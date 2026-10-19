@@ -31,11 +31,7 @@ function assertFinite(value: number, name: string): void {
   }
 }
 
-export function clamp(
-  value: number,
-  min: number,
-  max: number,
-): number {
+export function clamp(value: number, min: number, max: number): number {
   assertFinite(value, "value");
   assertFinite(min, "min");
   assertFinite(max, "max");
@@ -56,11 +52,9 @@ export function getChartDomain(
     return value;
   });
 
-  const dataMin =
-    validValues.length > 0 ? Math.min(...validValues) : 0;
+  const dataMin = validValues.length > 0 ? Math.min(...validValues) : 0;
 
-  const dataMax =
-    validValues.length > 0 ? Math.max(...validValues) : 0;
+  const dataMax = validValues.length > 0 ? Math.max(...validValues) : 0;
 
   const min = options.min ?? Math.min(0, dataMin);
   const max = options.max ?? Math.max(0, dataMax);

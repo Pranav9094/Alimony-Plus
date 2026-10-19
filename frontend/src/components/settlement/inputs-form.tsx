@@ -16,9 +16,7 @@ import {
 interface InputsFormProps {
   initialValues?: SettlementFormValues;
   onChange?: (values: SettlementFormValues) => void;
-  onValidChange?: (
-    result: ReturnType<typeof parseSettlementForm>,
-  ) => void;
+  onValidChange?: (result: ReturnType<typeof parseSettlementForm>) => void;
 }
 
 type RowKind = "assets" | "debts";
@@ -57,10 +55,7 @@ function InputField({
 
   return (
     <div className="min-w-0">
-      <label
-        htmlFor={id}
-        className="block text-sm font-medium text-slate-700"
-      >
+      <label htmlFor={id} className="block text-sm font-medium text-slate-700">
         {label}
       </label>
 
@@ -119,10 +114,7 @@ function OwnerSelect({
 }) {
   return (
     <div className="min-w-0">
-      <label
-        htmlFor={id}
-        className="block text-sm font-medium text-slate-700"
-      >
+      <label htmlFor={id} className="block text-sm font-medium text-slate-700">
         Ownership
       </label>
 
@@ -202,9 +194,7 @@ export default function InputsForm({
 
       setErrors((previous) => {
         const filtered = Object.fromEntries(
-          Object.entries(previous).filter(
-            ([key]) => !key.startsWith(prefix),
-          ),
+          Object.entries(previous).filter(([key]) => !key.startsWith(prefix)),
         );
 
         return filtered;
@@ -248,9 +238,7 @@ export default function InputsForm({
             continue;
           }
 
-          const match = key.match(
-            new RegExp(`^${kind}\\.(\\d+)(\\..+)$`),
-          );
+          const match = key.match(new RegExp(`^${kind}\\.(\\d+)(\\..+)$`));
 
           if (!match) {
             updated[key] = message;
@@ -366,9 +354,7 @@ export default function InputsForm({
                           label: event.target.value,
                         })
                       }
-                      aria-invalid={Boolean(
-                        errors[`${kind}.${index}.label`],
-                      )}
+                      aria-invalid={Boolean(errors[`${kind}.${index}.label`])}
                       className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-100"
                       placeholder={
                         kind === "assets"
@@ -377,17 +363,13 @@ export default function InputsForm({
                       }
                     />
 
-                    <FieldError
-                      message={errors[`${kind}.${index}.label`]}
-                    />
+                    <FieldError message={errors[`${kind}.${index}.label`]} />
                   </div>
 
                   <OwnerSelect
                     id={`${kind}.${index}.owner`}
                     value={row.owner}
-                    onChange={(owner) =>
-                      updateRow(kind, index, { owner })
-                    }
+                    onChange={(owner) => updateRow(kind, index, { owner })}
                   />
 
                   <div>
@@ -407,16 +389,12 @@ export default function InputsForm({
                           value: event.target.value,
                         })
                       }
-                      aria-invalid={Boolean(
-                        errors[`${kind}.${index}.value`],
-                      )}
+                      aria-invalid={Boolean(errors[`${kind}.${index}.value`])}
                       className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-100"
                       placeholder="0"
                     />
 
-                    <FieldError
-                      message={errors[`${kind}.${index}.value`]}
-                    />
+                    <FieldError message={errors[`${kind}.${index}.value`]} />
                   </div>
                 </div>
               </div>
@@ -436,8 +414,8 @@ export default function InputsForm({
           </h2>
 
           <p className="mt-1 text-sm text-slate-500">
-            Enter monthly amounts in Indian rupees. Enter 0 only when
-            the amount is genuinely zero.
+            Enter monthly amounts in Indian rupees. Enter 0 only when the amount
+            is genuinely zero.
           </p>
         </div>
 
@@ -500,8 +478,8 @@ export default function InputsForm({
       )}
 
       <p className="text-xs leading-5 text-slate-500">
-        Illustrative financial planning only. This form does not
-        determine legal entitlement or predict a court outcome.
+        Illustrative financial planning only. This form does not determine legal
+        entitlement or predict a court outcome.
       </p>
     </form>
   );

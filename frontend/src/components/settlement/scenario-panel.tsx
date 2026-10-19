@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo } from "react";
 import {
@@ -7,7 +7,7 @@ import {
   scenarioSchema,
   type Scenario,
 } from "@/lib/settlement/schemas";
-import { formatINR } from "@/lib/settlement/chart-scale";
+import { formatINR } from "./chart-scale";
 
 interface ScenarioPanelProps {
   scenarios: Scenario[];
@@ -33,10 +33,7 @@ function ScenarioPanel({
     [rulePackOptions],
   );
 
-  function updateScenario(
-    id: string,
-    patch: Partial<Scenario>,
-  ) {
+  function updateScenario(id: string, patch: Partial<Scenario>) {
     onChange(
       scenarios.map((scenario) => {
         if (scenario.id !== id) return scenario;
@@ -369,8 +366,8 @@ function ScenarioPanel({
                 </p>
 
                 <p className="mt-1 text-xs leading-5 text-slate-500">
-                  Monthly amount × 12 × duration. This is a projection,
-                  not a prediction of legal entitlement.
+                  Monthly amount × 12 × duration. This is a projection, not a
+                  prediction of legal entitlement.
                 </p>
               </div>
 
@@ -385,8 +382,8 @@ function ScenarioPanel({
       </div>
 
       <p className="text-xs leading-5 text-slate-500">
-        Illustrative planning only, not legal advice. The selected
-        assumptions do not establish a legally payable amount.
+        Illustrative planning only, not legal advice. The selected assumptions
+        do not establish a legally payable amount.
       </p>
     </section>
   );

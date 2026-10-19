@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   createBarGeometry,
@@ -6,7 +6,7 @@ import {
   getChartDomain,
   getChartTicks,
   valueToY,
-} from "@/lib/settlement/chart-scale";
+} from "./chart-scale";
 
 export interface SettlementChartScenario {
   id: string;
@@ -51,24 +51,16 @@ function ChartCard({
 }) {
   return (
     <section className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-      <h3 className="text-base font-semibold text-slate-900">
-        {title}
-      </h3>
+      <h3 className="text-base font-semibold text-slate-900">{title}</h3>
 
-      <p className="mt-1 text-sm text-slate-500">
-        {description}
-      </p>
+      <p className="mt-1 text-sm text-slate-500">{description}</p>
 
       <div className="mt-4">{children}</div>
     </section>
   );
 }
 
-function Legend({
-  items,
-}: {
-  items: { label: string; color: string }[];
-}) {
+function Legend({ items }: { items: { label: string; color: string }[] }) {
   return (
     <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
       {items.map((item) => (
@@ -140,21 +132,14 @@ function GroupedBarChart({
               (scenario) =>
                 `${scenario.label}: applicant ${formatINR(
                   applicantValue(scenario),
-                )}, respondent ${formatINR(
-                  respondentValue(scenario),
-                )}`,
+                )}, respondent ${formatINR(respondentValue(scenario))}`,
             )
             .join(". ")}`}
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-auto w-full min-w-[340px]"
         >
           {ticks.map((tick) => {
-            const y = valueToY(
-              tick.value,
-              domain,
-              MARGIN.top,
-              plotHeight,
-            );
+            const y = valueToY(tick.value, domain, MARGIN.top, plotHeight);
 
             return (
               <g key={tick.value}>
@@ -181,8 +166,7 @@ function GroupedBarChart({
           })}
 
           {scenarios.map((scenario, index) => {
-            const center =
-              MARGIN.left + groupWidth * (index + 0.5);
+            const center = MARGIN.left + groupWidth * (index + 0.5);
 
             const applicant = createBarGeometry(
               applicantValue(scenario),
@@ -204,22 +188,14 @@ function GroupedBarChart({
 
             return (
               <g key={scenario.id}>
-                <rect
-                  {...applicant}
-                  rx="3"
-                  fill={COLORS.applicant}
-                >
+                <rect {...applicant} rx="3" fill={COLORS.applicant}>
                   <title>
                     {scenario.label} applicant:{" "}
                     {formatINR(applicantValue(scenario))}
                   </title>
                 </rect>
 
-                <rect
-                  {...respondent}
-                  rx="3"
-                  fill={COLORS.respondent}
-                >
+                <rect {...respondent} rx="3" fill={COLORS.respondent}>
                   <title>
                     {scenario.label} respondent:{" "}
                     {formatINR(respondentValue(scenario))}
@@ -269,9 +245,7 @@ function MaintenanceChart({
     );
   }
 
-  const values = scenarios.map(
-    (scenario) => scenario.monthlyMaintenance,
-  );
+  const values = scenarios.map((scenario) => scenario.monthlyMaintenance);
 
   const domain = getChartDomain(values, { min: 0 });
   const ticks = getChartTicks(domain);
@@ -301,12 +275,7 @@ function MaintenanceChart({
           className="h-auto w-full min-w-[340px]"
         >
           {ticks.map((tick) => {
-            const y = valueToY(
-              tick.value,
-              domain,
-              MARGIN.top,
-              plotHeight,
-            );
+            const y = valueToY(tick.value, domain, MARGIN.top, plotHeight);
 
             return (
               <g key={tick.value}>
@@ -333,8 +302,7 @@ function MaintenanceChart({
           })}
 
           {scenarios.map((scenario, index) => {
-            const x =
-              MARGIN.left + groupWidth * (index + 0.5) - barWidth / 2;
+            const x = MARGIN.left + groupWidth * (index + 0.5) - barWidth / 2;
 
             const bar = createBarGeometry(
               scenario.monthlyMaintenance,
@@ -347,14 +315,10 @@ function MaintenanceChart({
 
             return (
               <g key={scenario.id}>
-                <rect
-                  {...bar}
-                  rx="4"
-                  fill={COLORS.maintenance}
-                >
+                <rect {...bar} rx="4" fill={COLORS.maintenance}>
                   <title>
-                    {scenario.label}:{" "}
-                    {formatINR(scenario.monthlyMaintenance)} per month
+                    {scenario.label}: {formatINR(scenario.monthlyMaintenance)}{" "}
+                    per month
                   </title>
                 </rect>
 
@@ -376,17 +340,13 @@ function MaintenanceChart({
       </div>
 
       <Legend
-        items={[
-          { label: "Monthly maintenance", color: COLORS.maintenance },
-        ]}
+        items={[{ label: "Monthly maintenance", color: COLORS.maintenance }]}
       />
     </ChartCard>
   );
 }
 
-export default function SettlementCharts({
-  scenarios,
-}: SettlementChartsProps) {
+export default function SettlementCharts({ scenarios }: SettlementChartsProps) {
   return (
     <div className="space-y-5">
       <div>
@@ -395,8 +355,8 @@ export default function SettlementCharts({
         </h2>
 
         <p className="mt-1 text-sm text-slate-500">
-          Compare asset allocation, debt distribution and proposed
-          monthly maintenance.
+          Compare asset allocation, debt distribution and proposed monthly
+          maintenance.
         </p>
       </div>
 
@@ -423,8 +383,8 @@ export default function SettlementCharts({
       </div>
 
       <p className="text-xs leading-5 text-slate-500">
-        Illustrative financial planning only. These charts do not
-        determine legal entitlement or predict a court outcome.
+        Illustrative financial planning only. These charts do not determine
+        legal entitlement or predict a court outcome.
       </p>
     </div>
   );
