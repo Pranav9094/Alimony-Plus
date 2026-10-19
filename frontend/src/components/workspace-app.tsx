@@ -388,7 +388,7 @@ export function WorkspaceApp({ section }: { section: string }) {
                   <Download size={16} />
                   Export summary
                 </button>
-                <button className="button primary" onClick={() => open("case")}>
+                <button className="button primary" onClick={() => window.location.assign("/filing")}>
                   <Plus size={17} />
                   New case
                 </button>
@@ -641,7 +641,7 @@ export function WorkspaceApp({ section }: { section: string }) {
                   <Plus size={16} />
                   Add proceeding
                 </button>
-                <button className="button primary" onClick={() => open("case")}>
+                <button className="button primary" onClick={() => window.location.assign("/filing")}>
                   <Plus size={16} />
                   New case
                 </button>
