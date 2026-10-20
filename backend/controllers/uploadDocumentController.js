@@ -6,6 +6,9 @@ import db from "../config/db.js";
 import { encryptFile } from "../utils/encryption.js";
 import setRlsUser from "../utils/rlsContext.js";
 import createAuditLog from "../utils/auditLog.js";
+import { getOwnedCase } from "../utils/ownedCase.js";
+import { matchesDeclaredType } from "../utils/fileSignature.js";
+import { DOCUMENT_TYPES } from "../services/checklist.js";
 
 const uploadDocument = async (req, res) => {
     let storagePath = null;
@@ -26,6 +29,30 @@ const uploadDocument = async (req, res) => {
             return res.status(400).json({
                 success: false,
                 message: "Invalid Case ID"
+            });
+        }
+
+        if (documentType !== undefined && !DOCUMENT_TYPES.includes(documentType)) {
+            return res.status(400).json({
+                success: false,
+                message: "Unknown document category"
+            });
+        }
+
+        // The declared type comes from the client, so check the file's own bytes.
+        if (!matchesDeclaredType(req.file.buffer, req.file.mimetype)) {
+            return res.status(400).json({
+                success: false,
+                message: "File content does not match its type"
+            });
+        }
+
+        // Verify ownership before anything is written to disk.
+        const owned = await getOwnedCase(numericCaseId, req.user.id);
+        if (owned.error) {
+            return res.status(owned.error.status).json({
+                success: false,
+                message: owned.error.message
             });
         }
 

@@ -10,6 +10,8 @@ export default async function Page({
   if (
     ![
       "dashboard",
+      "intake",
+      "navigator",
       "cases",
       "orders",
       "payments",

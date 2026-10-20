@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'3b86d5e00ec4545c9b8e6b2bc18409879364fc238d29ba6ad1f7fbb9b14842d3'>;
+  StorageHashBase<'b8d9d9b9aa5febf70d6988232a50637e80eea5847e2fe99a4a19c96b6bb13dbe'>;
 export type ExecutionHash = ExecutionHashBase<string>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
@@ -297,6 +297,14 @@ export type FieldOutputTypes = {
       readonly storagePath: CodecTypes['pg/text@1']['output'];
       readonly uploadedBy: CodecTypes['pg/int4@1']['output'];
     };
+    readonly Intake: {
+      readonly answers: CodecTypes['pg/text@1']['output'];
+      readonly caseId: CodecTypes['pg/int4@1']['output'];
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+      readonly id: CodecTypes['pg/int4@1']['output'];
+      readonly safetyFlag: CodecTypes['pg/bool@1']['output'];
+      readonly userId: CodecTypes['pg/int4@1']['output'];
+    };
     readonly Order: {
       readonly amount: CodecTypes['pg/numeric@1']['output'] | null;
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
@@ -392,6 +400,14 @@ export type FieldInputTypes = {
       readonly originalName: CodecTypes['pg/text@1']['input'];
       readonly storagePath: CodecTypes['pg/text@1']['input'];
       readonly uploadedBy: CodecTypes['pg/int4@1']['input'];
+    };
+    readonly Intake: {
+      readonly answers: CodecTypes['pg/text@1']['input'];
+      readonly caseId: CodecTypes['pg/int4@1']['input'];
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
+      readonly id: CodecTypes['pg/int4@1']['input'];
+      readonly safetyFlag: CodecTypes['pg/bool@1']['input'];
+      readonly userId: CodecTypes['pg/int4@1']['input'];
     };
     readonly Order: {
       readonly amount: CodecTypes['pg/numeric@1']['input'] | null;
@@ -489,6 +505,14 @@ export type StorageColumnTypes = {
       readonly storagePath: CodecTypes['pg/text@1']['output'];
       readonly uploadedBy: CodecTypes['pg/int4@1']['output'];
     };
+    readonly Intake: {
+      readonly answers: CodecTypes['pg/text@1']['output'];
+      readonly caseId: CodecTypes['pg/int4@1']['output'];
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+      readonly id: CodecTypes['pg/int4@1']['output'];
+      readonly safetyFlag: CodecTypes['pg/bool@1']['output'];
+      readonly userId: CodecTypes['pg/int4@1']['output'];
+    };
     readonly Order: {
       readonly amount: CodecTypes['pg/numeric@1']['output'] | null;
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
@@ -584,6 +608,14 @@ export type StorageColumnInputTypes = {
       readonly originalName: CodecTypes['pg/text@1']['input'];
       readonly storagePath: CodecTypes['pg/text@1']['input'];
       readonly uploadedBy: CodecTypes['pg/int4@1']['input'];
+    };
+    readonly Intake: {
+      readonly answers: CodecTypes['pg/text@1']['input'];
+      readonly caseId: CodecTypes['pg/int4@1']['input'];
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
+      readonly id: CodecTypes['pg/int4@1']['input'];
+      readonly safetyFlag: CodecTypes['pg/bool@1']['input'];
+      readonly userId: CodecTypes['pg/int4@1']['input'];
     };
     readonly Order: {
       readonly amount: CodecTypes['pg/numeric@1']['input'] | null;
@@ -686,6 +718,15 @@ export namespace Models {
     uploadedBy: CodecTypes['pg/int4@1']['output'];
     readonly [RelationKeys]?: never;
   };
+  export type public_Intake = {
+    answers: CodecTypes['pg/text@1']['output'];
+    caseId: CodecTypes['pg/int4@1']['output'];
+    createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+    id: CodecTypes['pg/int4@1']['output'];
+    safetyFlag: CodecTypes['pg/bool@1']['output'];
+    userId: CodecTypes['pg/int4@1']['output'];
+    readonly [RelationKeys]?: never;
+  };
   export type public_Order = {
     amount: CodecTypes['pg/numeric@1']['output'] | null;
     createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
@@ -744,6 +785,7 @@ export declare const models: {
     Case: Models.public_Case;
     Dependent: Models.public_Dependent;
     Document: Models.public_Document;
+    Intake: Models.public_Intake;
     Order: Models.public_Order;
     Party: Models.public_Party;
     Payment: Models.public_Payment;
@@ -1029,6 +1071,53 @@ type ContractBase = Omit<
               indexes: readonly [];
               foreignKeys: readonly [];
             };
+            readonly Intake: {
+              columns: {
+                readonly answers: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly caseId: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                };
+                readonly createdAt: {
+                  readonly nativeType: 'timestamptz';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                };
+                readonly id: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                };
+                readonly safetyFlag: {
+                  readonly nativeType: 'bool';
+                  readonly codecId: 'pg/bool@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/bool@1', false>;
+                  };
+                };
+                readonly userId: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [{ readonly columns: readonly ['caseId'] }];
+              indexes: readonly [];
+              foreignKeys: readonly [];
+            };
             readonly Order: {
               columns: {
                 readonly amount: {
@@ -1295,6 +1384,7 @@ type ContractBase = Omit<
     readonly Case: { readonly namespace: 'public' & NamespaceId; readonly model: 'Case' };
     readonly Dependent: { readonly namespace: 'public' & NamespaceId; readonly model: 'Dependent' };
     readonly Document: { readonly namespace: 'public' & NamespaceId; readonly model: 'Document' };
+    readonly Intake: { readonly namespace: 'public' & NamespaceId; readonly model: 'Intake' };
     readonly Order: { readonly namespace: 'public' & NamespaceId; readonly model: 'Order' };
     readonly Party: { readonly namespace: 'public' & NamespaceId; readonly model: 'Party' };
     readonly Payment: { readonly namespace: 'public' & NamespaceId; readonly model: 'Payment' };
@@ -1565,6 +1655,50 @@ type ContractBase = Omit<
                 readonly originalName: { readonly column: 'originalName' };
                 readonly storagePath: { readonly column: 'storagePath' };
                 readonly uploadedBy: { readonly column: 'uploadedBy' };
+              };
+            };
+          };
+          readonly Intake: {
+            readonly fields: {
+              readonly answers: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly caseId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly createdAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                };
+              };
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly safetyFlag: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
+              };
+              readonly userId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+            };
+            readonly relations: Record<string, never>;
+            readonly storage: {
+              readonly table: 'Intake';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly answers: { readonly column: 'answers' };
+                readonly caseId: { readonly column: 'caseId' };
+                readonly createdAt: { readonly column: 'createdAt' };
+                readonly id: { readonly column: 'id' };
+                readonly safetyFlag: { readonly column: 'safetyFlag' };
+                readonly userId: { readonly column: 'userId' };
               };
             };
           };

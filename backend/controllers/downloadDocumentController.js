@@ -3,6 +3,7 @@ import fs from "fs/promises";
 import db from "../config/db.js";
 import { decryptFile } from "../utils/encryption.js";
 import setRlsUser from "../utils/rlsContext.js";
+import { ALLOWED_MIME } from "../utils/fileSignature.js";
 
 const downloadDocument = async (req, res) => {
     try {
@@ -56,11 +57,19 @@ const downloadDocument = async (req, res) => {
             authTag
         );
 
-        res.setHeader("Content-Type", document.mimeType);
+        const safeMime = ALLOWED_MIME.includes(document.mimeType)
+            ? document.mimeType
+            : "application/octet-stream";
+        const asciiName = String(document.originalName)
+            .replace(/[^\w.\- ]+/g, "_")
+            .slice(0, 120) || "document";
 
+        res.setHeader("Content-Type", safeMime);
+        res.setHeader("X-Content-Type-Options", "nosniff");
+        res.setHeader("Cache-Control", "no-store");
         res.setHeader(
             "Content-Disposition",
-            `attachment; filename="${document.originalName}"`
+            `attachment; filename="${asciiName}"; filename*=UTF-8''${encodeURIComponent(document.originalName)}`
         );
 
         res.send(decryptedFile);

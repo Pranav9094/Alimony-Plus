@@ -18,6 +18,7 @@ import type {
   Proceeding,
   Order,
   Payment,
+  DocumentRecord,
 } from "@/lib/types";
 const empty = (): Workspace => ({
   cases: [],
@@ -91,8 +92,22 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       )
         .flatMap((r) => r.payments)
         .map((p) => ({ ...p, amount: Number(p.amount) }));
+      const documents = (
+        await Promise.all(
+          cases.map((c) =>
+            api<{ documents: DocumentRecord[] }>(`documents/case/${c.id}`),
+          ),
+        )
+      ).flatMap((r) => r.documents);
       if (generation === requestGeneration.current)
-        setData((prev) => ({ ...prev, cases, proceedings, orders, payments }));
+        setData((prev) => ({
+          ...prev,
+          cases,
+          proceedings,
+          orders,
+          payments,
+          documents,
+        }));
     } catch (err) {
       if (generation === requestGeneration.current)
         setError((err as Error).message);

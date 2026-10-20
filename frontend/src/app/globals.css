@@ -2441,3 +2441,27 @@ td small {
 .table-scroll {
   position: relative;
 }
+
+/* Guided intake: accessible radio / checkbox groups with large touch targets */
+fieldset.field {
+  border: 0;
+  padding: 0;
+  margin: 0 0 1.5rem;
+}
+fieldset.field legend {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 44px;
+  padding: 0.25rem 0;
+  cursor: pointer;
+}
+.choice input {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: none;
+}

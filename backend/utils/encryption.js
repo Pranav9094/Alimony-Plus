@@ -5,14 +5,17 @@ const ALGORITHM = "aes-256-gcm";
 const getEncryptionKey = () => {
     const key = process.env.FILE_ENCRYPTION_KEY;
 
-    console.log("Key length:", key?.length);
-    console.log("Key bytes:", key ? Buffer.from(key, "hex").length : 0);
-
     if (!key) {
         throw new Error("FILE_ENCRYPTION_KEY is not configured");
     }
 
-    return Buffer.from(key, "hex");
+    const bytes = Buffer.from(key, "hex");
+
+    if (bytes.length !== 32) {
+        throw new Error("FILE_ENCRYPTION_KEY must be 32 bytes (64 hex characters)");
+    }
+
+    return bytes;
 };
 
 export const encryptFile = (buffer) => {

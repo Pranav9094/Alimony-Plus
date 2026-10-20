@@ -1,3 +1,18 @@
+﻿# Python cache files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+
+# Environment variables and secrets
+.env
+.env.*
+
+# Temporary backup files
+*.backup
+*.backup.*
 frontend/node_modules/
 frontend/.next/
 frontend/.env*
@@ -5,3 +20,9 @@ frontend/.env*
 frontend/test-results/
 frontend/playwright-report/
 frontend/*.tsbuildinfo
+
+# Python / local env (added in cleanup)
+__pycache__/
+*.pyc
+.pytest_cache/
+/.env

@@ -35,6 +35,14 @@ export type Payment = {
   period?: string;
   reference?: string;
   notes?: string;
+  proof?: ProofInfo;
+  proofFile?: File;
+};
+export type ProofInfo = {
+  fileName: string;
+  fileSize: number;
+  mimeType: string;
+  sha256: string;
 };
 export type Hearing = {
   id: number;

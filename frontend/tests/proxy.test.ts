@@ -104,3 +104,40 @@ describe("same-origin backend adapter", () => {
     expect((await response.json()).cases).toBeUndefined();
   });
 });
+
+describe("intake, navigator and checklist routes", () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+    vi.stubGlobal("fetch", vi.fn());
+  });
+  it("forwards the new read routes only with a session", async () => {
+    for (const path of [
+      "cases/7/intake",
+      "cases/7/navigator",
+      "cases/7/checklist",
+      "documents/case/7",
+    ]) {
+      const result = await GET(
+        new NextRequest(`${base}/api/backend/${path}`),
+        ctx(path),
+      );
+      expect(result.status).toBe(401);
+    }
+    expect(fetch).not.toHaveBeenCalled();
+  });
+  it("still rejects unknown sub-paths and cross-origin intake saves", async () => {
+    const unknown = await GET(
+      new NextRequest(`${base}/api/backend/cases/7/anything`),
+      ctx("cases/7/anything"),
+    );
+    expect(unknown.status).toBe(404);
+    const crossOrigin = await POST(
+      new NextRequest(`${base}/api/backend/cases/7/intake`, {
+        method: "POST",
+        headers: { origin: "https://other.example" },
+      }),
+      ctx("cases/7/intake"),
+    );
+    expect(crossOrigin.status).toBe(403);
+  });
+});
